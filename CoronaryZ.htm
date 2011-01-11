@@ -1,0 +1,290 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+<head>
+    <title>Coronary Artery Z-Score Calculator (Boston, Washington, D.C., and Montreal) |
+        ParameterZ.com</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="description" content="Calculate and compare z-scores of the coronary arteries using data published from Boston Children's Hospital and others.
+" />
+    <meta name="author" content="Dan Dyar/ParameterZ.com" />
+
+    <script src="js/jquery-1.4.min.js" type="text/javascript"></script>
+
+    <script src="js/ca_defs.js" type="text/javascript"></script>
+
+    <script src="js/ca_main.js" type="text/javascript"></script>
+    <script src="js/ZUtils.js" type="text/javascript"></script>
+
+    <link href="style/screen.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        p
+        {
+            font-size: 120%;
+        }
+        .normal, .mild, .moderate, .severe, .borderline
+        {
+            padding: .8em;
+            margin-bottom: 1em;
+            border: 2px solid #ddd;
+        }
+        .severe, .moderate
+        {
+            background: #FBE3E4;
+            color: #8a1f11;
+            border-color: #FBC2C4;
+        }
+        .mild, .borderline
+        {
+            background: #FFF6BF;
+            color: #555;
+            border-color: #FFD324;
+        }
+        .normal
+        {
+            background: #E6EFC2;
+            color: #264409;
+            border-color: #C6D880;
+        }
+        .title, .authors, .journal
+        {
+            display: block;
+        }
+        .label
+        {
+            text-align: right;
+        }
+        th
+        {
+            text-align: center;
+        }
+        pre
+        {
+            height: 400px;
+            overflow: auto;
+        }
+        span.code
+        {
+            background-color: Silver;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="title">
+            Coronary Artery Z-Score Calculator
+        </h2>
+        <h3 id="subtitle" class="alt prepend-1">
+            comparing multiple references
+        </h3>
+        <hr class="space" />
+        <div id="main">
+            <form id="coronary-form" action="" method="">
+            <table summary="Coronary Artery Z-Score Calculator" border="0" cellspacing="0" cellpadding="0">
+                <tbody id="calculator_inputs">
+                    <tr>
+                        <td class="label">
+                            <label for="txtHT">
+                                Height (cm):</label>
+                        </td>
+                        <td>
+                            <input id="txtHT" type="text" onchange="updateBSA()" title="cm" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">
+                            <label for="txtWT">
+                                Weight (kg):</label>
+                        </td>
+                        <td>
+                            <input id="txtWT" type="text" onchange="updateBSA()" title="kg" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">
+                            <label for="cmbBSA">
+                                BSA formula:</label>
+                        </td>
+                        <td>
+                            <select id="cmbBSA" onchange="updateBSA()">
+                                <option value="Boyd">Boyd </option>
+                                <option value="DuBois">DuBois </option>
+                                <option value="Gehan">Gehan &amp; George </option>
+                                <option value="Haycock" selected="selected">Haycock </option>
+                                <option value="Mosteller">Mosteller </option>
+                                <option value="Dreyer">Weight ONLY </option>
+                            </select>
+                        </td>
+                        <td id="BSA" class="results">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">
+                            <label>
+                                Reference:</label>
+                        </td>
+                        <td>
+                            <select id="cmbUseRef" onchange="updateRef()">
+                                <option value="">-- Choose Reference --</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="info" colspan="2">
+                            &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody id="calculator_results">
+                    <tr>
+                        <th>
+                            Site
+                        </th>
+                        <th>
+                            Measured (mm)
+                        </th>
+                        <th>
+                            Z-Score
+                        </th>
+                    </tr>
+                    <tr>
+                        <td class="label">
+                            <label class="lmca" for="txtlmca">
+                                Left Main Coronary Artery:</label>
+                        </td>
+                        <td>
+                            <input id="txtlmca" type="text" class="site lmca" onchange="updateSite('lmca', this.value)"
+                                title="" />
+                        </td>
+                        <td>
+                            <span id="lmcaz" class="results lmca"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">
+                            <label class="lad" for="txtlad">
+                                Left Anterior Descending:</label>
+                        </td>
+                        <td>
+                            <input id="txtlad" type="text" class="site lad" onchange="updateSite('lad', this.value)"
+                                title="" />
+                        </td>
+                        <td>
+                            <span id="ladz" class="results lad"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">
+                            <label class="circ" for="txtcirc">
+                                Circumflex:</label>
+                        </td>
+                        <td>
+                            <input id="txtcirc" type="text" class="site circ" onchange="updateSite('circ', this.value)"
+                                title="" />
+                        </td>
+                        <td>
+                            <span id="circz" class="results circ"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">
+                            <label class="rca" for="txtrca">
+                                Right Main:</label>
+                        </td>
+                        <td>
+                            <input id="txtrca" type="text" class="site rca" onchange="updateSite('rca', this.value)"
+                                title="" />
+                        </td>
+                        <td>
+                            <span id="rcaz" class="results rca"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">
+                            <label class="mid_rca" for="txtmid_rca">
+                                Mid Right:</label>
+                        </td>
+                        <td>
+                            <input id="txtmid_rca" type="text" class="site mid_rca" onchange="updateSite('mid_rca', this.value)"
+                                title="" />
+                        </td>
+                        <td>
+                            <span id="mid_rcaz" class="results mid_rca"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">
+                            <label class="dist_rca" for="txtdist_rca">
+                                Distal Right:</label>
+                        </td>
+                        <td>
+                            <input id="txtdist_rca" type="text" class="site dist_rca" onchange="updateSite('dist_rca', this.value)"
+                                title="" />
+                        </td>
+                        <td>
+                            <span id="dist_rcaz" class="results dist_rca"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            &nbsp;
+                        </td>
+                        <td>
+                            <input id="btnCalculateZ" type="button" value="Update" onclick="calculateZScores()"
+                                class="button" />
+                        </td>
+                        <td>
+                            <input id="Reset1" type="reset" value="reset" onclick="resetForm()" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </form>
+            <div class="span-18 ">
+                <hr />
+                <h3>
+                    References:</h3>
+                <div id="References">
+                    <a class="linkUrl"><span class="title"></span></a><span class="authors"></span><span
+                        class="journal"></span>
+                </div>
+            </div>
+            <hr class="space" />
+        </div>
+        <hr class="space" />
+        <hr />
+        <hr class="space" />
+        <div id="footer">
+            <p>
+                Last updated: 11 Jan. 2011&nbsp;|&nbsp;<a href="http://parameterz.com">ParameterZ.com</a>&nbsp;|&nbsp;<a
+                    href="http://spreadsheets.google.com/viewform?formkey=dDZ0TjRCSXZTNEZvZTZ4ekxKNHBPLVE6MA">
+                    Contact</a>&nbsp;|&nbsp;<a href="disclaimer.htm">Disclaimer</a>&nbsp;|&nbsp;<a href="#main">Top
+                        &uarr; </a>
+            </p>
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- place scripts at bottom of page -->
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            //fill the 'use_ref' dropdown list
+            $.each(REFS, function(key, value) {
+                $('#cmbUseRef').append($('<option></option>').
+            attr('value', key).
+            text(value.name));
+            });
+            $('pre').hide();
+            $('H4 a').click(
+        function() {
+            $(this).parent().next('pre').toggle();
+            return false
+        }
+            );
+            $('#coronary-form').submit(function() { return false; });
+
+        });
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,366 @@
+﻿{% extends "_base.htm" %}
+<!-- head -->
+{% block pagetitle %}
+Coronary Artery Z-Score Calculator (Boston, Washington, D.C., and Montreal)
+{% endblock %} 
+{% block pagedescription %}
+Calculate and compare z-scores of the coronary arteries using data published from Boston Children's Hospital and others.
+{% endblock %}
+<!-- header -->
+{% block title %}
+Coronary Artery Z-Score Calculator
+{% endblock %} 
+{% block subtitle %}
+comparing multiple references
+{% endblock %}
+<!-- body -->
+{% block content %}
+<form id="coronary-form" action="" method="">
+<table summary="Coronary Artery Z-Score Calculator" border="0" cellspacing="0" cellpadding="0">
+    <tbody id="calculator_inputs">
+        <tr>
+            <td class="label">
+                <label for="txtHT">
+                    Height (cm):</label>
+            </td>
+            <td>
+                <input id="txtHT" type="text" onchange="updateBSA()" title="cm" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                <label for="txtWT">
+                    Weight (kg):</label>
+            </td>
+            <td>
+                <input id="txtWT" type="text" onchange="updateBSA()" title="kg" />
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                <label for="cmbBSA">
+                    BSA formula:</label>
+            </td>
+            <td>
+                <select id="cmbBSA" onchange="updateBSA()">
+                    <option value="Boyd">Boyd </option>
+                    <option value="DuBois">DuBois </option>
+                    <option value="Gehan">Gehan &amp; George </option>
+                    <option value="Haycock" selected="selected">Haycock </option>
+                    <option value="Mosteller">Mosteller </option>
+                    <option value="Dreyer">Weight ONLY </option>
+                </select>
+            </td>
+            <td id="BSA" class="results">
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                <label>
+                    Reference:</label>
+            </td>
+            <td>
+                <select id="cmbUseRef" onchange="updateRef()">
+                    <option value="">-- Choose Reference --</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td id="info" colspan="2">
+                &nbsp;
+            </td>
+        </tr>
+    </tbody>
+    <tbody id="calculator_results">
+        <tr>
+            <th>
+                Site
+            </th>
+            <th>
+                Measured (mm)
+            </th>
+            <th>
+                Z-Score
+            </th>
+        </tr>
+        <tr>
+            <td class="label">
+                <label class="lmca" for="txtlmca">
+                    Left Main Coronary Artery:</label>
+            </td>
+            <td>
+                <input id="txtlmca" type="text" class="site lmca" onchange="updateSite('lmca', this.value)"
+                    title="" />
+            </td>
+            <td>
+                <span id="lmcaz" class="results lmca"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                <label class="lad" for="txtlad">
+                    Left Anterior Descending:</label>
+            </td>
+            <td>
+                <input id="txtlad" type="text" class="site lad" onchange="updateSite('lad', this.value)"
+                    title="" />
+            </td>
+            <td>
+                <span id="ladz" class="results lad"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                <label class="circ" for="txtcirc">
+                    Circumflex:</label>
+            </td>
+            <td>
+                <input id="txtcirc" type="text" class="site circ" onchange="updateSite('circ', this.value)"
+                    title="" />
+            </td>
+            <td>
+                <span id="circz" class="results circ"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                <label class="rca" for="txtrca">
+                    Right Main:</label>
+            </td>
+            <td>
+                <input id="txtrca" type="text" class="site rca" onchange="updateSite('rca', this.value)"
+                    title="" />
+            </td>
+            <td>
+                <span id="rcaz" class="results rca"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                <label class="mid_rca" for="txtmid_rca">
+                    Mid Right:</label>
+            </td>
+            <td>
+                <input id="txtmid_rca" type="text" class="site mid_rca" onchange="updateSite('mid_rca', this.value)"
+                    title="" />
+            </td>
+            <td>
+                <span id="mid_rcaz" class="results mid_rca"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">
+                <label class="dist_rca" for="txtdist_rca">
+                    Distal Right:</label>
+            </td>
+            <td>
+                <input id="txtdist_rca" type="text" class="site dist_rca" onchange="updateSite('dist_rca', this.value)"
+                    title="" />
+            </td>
+            <td>
+                <span id="dist_rcaz" class="results dist_rca"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                &nbsp;
+            </td>
+            <td>
+                <input id="btnCalculateZ" type="button" value="Update" onclick="calculateZScores()"
+                    class="button" />
+            </td>
+            <td>
+                <input id="Reset1" type="reset" value="reset" onclick="resetForm()" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+</form>
+<div class="span-18 ">
+    <hr />
+    <h3>
+        References:</h3>
+    <div id="References">
+        <a class="linkUrl"><span class="title"></span></a><span class="authors"></span><span
+            class="journal"></span>
+    </div>
+</div>
+<hr class="space" />
+<div id="about">
+<h3>
+About this calculator</h3>
+<p>
+I intend this calculator to be used primarily to help demonstrate differences and
+similarities between various recent coronary artery z-score equations available in the literature.  
+This particular version improves on previous work mainly by consolidating the references 
+(and subsequent calculations) onto a single page.  </p>
+<p>In the interest of transparency, the following summarizes the design:</p>
+    <div id="code_sample">
+    <p>The constructor function and properties that do all the heavy lifting look like this: <span class="quiet">(click to show/hide)</span></p>
+    <h4><a href="#">Boston</a></h4>
+<pre class="prettyprint Boston">
+function Cor_b(o) {
+    //these are bsa-adjusted coronaries a-la Boston
+    this.a1 = o.a1;
+    this.b1 = o.b1;
+    this.exp = o.exp;
+    this.a2 = o.a2;
+    this.b2 = o.b2;
+}
+Cor_b.prototype.mean = function () {
+    // converts cm to mm, i.e., manuscript deals with 'cm', I want to use 'mm'
+    return 10 * (this.a1 + this.b1 * Math.pow(BSA, this.exp));
+}
+Cor_b.prototype.sd = function () {
+    return 10 * (this.a2 + this.b2 * BSA);
+}
+Cor_b.prototype.zscore = function (score) {
+    return (score - this.mean()) / this.sd();
+}
+Cor_b.prototype.uln = function () {
+    return this.mean() + LIMIT * this.sd();
+}
+Cor_b.prototype.lln = function () {
+    return this.mean() - LIMIT * this.sd();
+}        
+</pre>
+    <H4><a href="#">Montreal</a></H4>
+<pre class="prettyprint Montreal">
+function Cor_m(o) {
+    //these are bsa-adjusted coronaries a-la Montreal
+    this.a1 = o.a1;
+    this.b1 = o.b1;
+    this.a2 = o.a2;
+    this.b2 = o.b2;
+}
+Cor_m.prototype.mean = function () {
+    return this.a1 + this.b1 * Math.sqrt(BSA);
+};
+Cor_m.prototype.sd = function () {
+    return this.a2 + this.b2 * Math.sqrt(BSA);
+};
+Cor_m.prototype.zscore = function (score) {
+    return (score - this.mean()) / this.sd();
+};
+Cor_m.prototype.uln = function () {
+    return this.mean() + LIMIT * this.sd();
+};
+Cor_m.prototype.lln = function () {
+    return this.mean() - LIMIT * this.sd();
+};
+</pre>
+    <h4><a href="#">Washington, D.C.</a></h4>
+<pre class="prettyprint DC">
+function Cor_dc(o) {
+    //these are bsa-adjusted coronaries a-la CNMC, Washington D.C.
+    this.beta1 = o.beta1, this.beta2 = o.beta2, this.mse = o.mse
+}
+Cor_dc.prototype.logMean = function () {
+    return this.beta1 + this.beta2 * Math.log(BSA);
+}
+Cor_dc.prototype.zscore = function (score) {
+    //have to convert mm to cm, i.e., the equatons expect 'cm', I want us to use 'mm'
+    return (Math.log(score / 10) - this.logMean()) / Math.sqrt(this.mse);
+}
+Cor_dc.prototype.mean = function () {
+    return 10 * Math.exp(this.logMean());
+}
+Cor_dc.prototype.uln = function () {
+    return Math.exp(this.logMean() + LIMIT * Math.sqrt(this.mse)) * 10
+}
+Cor_dc.prototype.lln = function () {
+    return Math.exp(this.logMean() - LIMIT * Math.sqrt(this.mse)) * 10
+}
+</pre>
+    <hr class="space" />
+    <p>and the objects that are built using the constructor functions look like this: <span class="quiet">(click to show/hide)</span></p>
+    <h4><a href="#">Boston</a></h4>
+<pre class="prettyprint Boston">
+var boston = {
+    id: "Boston (Circ. 2007)",
+    citation: {
+        title: 'Coronary artery involvement in children with Kawasaki disease: risk factors from analysis of serial normalized measurements.',
+        authors: 'McCrindle BW, Li JS, Minich LL, Colan SD, Atz AM, Takahashi M, Vetter VL, Gersony WM, Mitchell PD, Newburger JW; Pediatric Heart Network Investigators.',
+        journal: 'Circulation. 2007 Jul 10;116(2):174-9. Epub 2007 Jun 18.',
+        linkUrl: 'http://www.ncbi.nlm.nih.gov/pubmed/17576863'
+    },
+    lmca: new Cor_b({ a1: -0.02887, b1: 0.31747, exp: 0.36008, a2: 0.03040, b2: 0.01514 }),
+    lad: new Cor_b({ a1: -0.02852, b1: 0.26108, exp: 0.37893, a2: 0.01465, b2: 0.01996 }),
+    rca: new Cor_b({ a1: -0.02756, b1: 0.26117, exp: 0.39992, a2: 0.02407, b2: 0.01597 })
+};
+</pre>
+    <H4><a href="#">Montreal</a></H4>
+<pre class="prettyprint Montreal">
+var montreal = {
+id: 'Montreal (JASE, 2011)', //will show in drop-down list
+citation: {
+    title: "New equations and a critical appraisal of coronary artery Z scores in healthy children.",
+    authors: "Dallaire F, Dahdah N.",
+    journal: "J Am Soc Echocardiogr. 2011 Jan;24(1):60-74. Epub 2010 Nov 13.",
+    linkUrl: "http://www.ncbi.nlm.nih.gov/pubmed/21074965"
+},
+lmca: new Cor_m({ a1: -0.1817, b1: 2.9238, a2: 0.1801, b2: 0.2530 }),
+lad: new Cor_m({ a1: -0.1502, b1: 2.2672, a2: 0.1709, b2: 0.2293 }),
+circ: new Cor_m({ a1: -0.2716, b1: 2.3458, a2: 0.1142, b2: 0.3423 }),
+rca: new Cor_m({ a1: -0.3039, b1: 2.7521, a2: 0.1626, b2: 0.2881 }),
+mid_rca: new Cor_m({ a1: -0.3060, b1: 2.4078, a2: 0.1324, b2: 0.3259 }),
+dist_rca: new Cor_m({ a1: -0.3185, b1: 2.3295, a2: 0.1099, b2: 0.3198 })
+};        </pre>
+    <h4><a href="#">Washington, D.C.</a></h4>
+<pre class="prettyprint DC">
+var dc = {
+    id: "Washington, D.C. (JASE, 2009)",
+    citation: {
+        title: 'Coronary artery Z score regression equations and calculators derived from a large heterogeneous population of children undergoing echocardiography.',
+        authors: 'Olivieri L, Arling B, Friberg M, Sable C.',
+        journal: 'J Am Soc Echocardiogr. 2009 Feb;22(2):159-64. Epub 2008 Dec 11',
+        linkUrl: 'http://www.ncbi.nlm.nih.gov/pubmed/19084373'
+    },
+    lmca: new Cor_dc({ beta1: -1.31625, beta2: 0.37442, mse: 0.028467 }),
+    lad: new Cor_dc({ beta1: -1.50927, beta2: 0.41164, mse: 0.033031 }),
+    rca: new Cor_dc({ beta1: -1.46115, beta2: 0.37870, mse: 0.040172 })
+};
+
+</pre>   
+    <hr class="space" />
+<p>Each reference object is collected in a list (<span class="code">[REFS]</span>). Once the reference is chosen by 
+the user it is designated as the primary object, <span class="code">REF</span>. 
+The various properties are then accessed (using JQuery). In this version only the z-score property is displayed, 
+accessed using the following syntax: </p>
+<p class="prepend-2"><span class="code">REF['site']['zscore'](score)</span></p>
+
+    </div>
+</div>
+{% endblock %}
+<!-- footer -->
+{% block updated %}09 Jan. 2011{% endblock %} {% block alsoLink %}{% endblock %}
+<!-- scripts -->
+{% block scripts %}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        //fill the 'use_ref' dropdown list
+        $.each(REFS, function(key, value) {
+            $('#cmbUseRef').append($('<option></option>').
+            attr('value', key).
+            text(value.name));
+        });
+        $('pre').hide();
+        $('H4 a').click(
+        function() {
+            $(this).parent().next('pre').toggle();
+            return false
+        }
+            );
+        $('#coronary-form').submit(function() { return false; });
+        //prettyfy the code samples
+        prettyPrint();
+    });
+
+</script>
+
+<script src="../../static/js/ZUtils.js" type="text/javascript"></script>
+
+<script src="../../static/js/coronaries-unified.js" type="text/javascript"></script>
+
+{% endblock %} 
