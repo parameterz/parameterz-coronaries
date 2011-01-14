@@ -8,7 +8,7 @@ function updateBSA() {
     method = $('#cmbBSA').val();
     if (ht && wt) {
         BSA = CalcBSA(ht, wt, method).toFixed(2);
-        BSA = +BSA; //type converts back to 'number'; ensures we are making all calcs from her on using the displayed bsa
+        BSA = +BSA; //type converts back to 'number'; ensures we are making all calcs from here on using the displayed bsa
     } else if (wt && method == 'Dreyer') {
         BSA = CalcBSA('', wt, method).toFixed(2);
         BSA = +BSA; //type converts back to 'number', see note above
@@ -39,6 +39,8 @@ function updateRef() {
     if (use_ref !== '') {
         REF = REFS[use_ref];
         displayRef();
+        //add logic to update BSA formula
+        $('#cmbBSA').val(REF['bsaFormula']);
         calculateZScores();
 
     } else {

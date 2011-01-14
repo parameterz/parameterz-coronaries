@@ -101,7 +101,8 @@ var montreal = {
     circ: new Cor_m({ a1: -0.2716, b1: 2.3458, a2: 0.1142, b2: 0.3423 }),
     rca: new Cor_m({ a1: -0.3039, b1: 2.7521, a2: 0.1626, b2: 0.2881 }),
     mid_rca: new Cor_m({ a1: -0.3060, b1: 2.4078, a2: 0.1324, b2: 0.3259 }),
-    dist_rca: new Cor_m({ a1: -0.3185, b1: 2.3295, a2: 0.1099, b2: 0.3198 })
+    dist_rca: new Cor_m({ a1: -0.3185, b1: 2.3295, a2: 0.1099, b2: 0.3198 }),
+    bsaFormula: 'Haycock'
 };
 
 var dc = {
@@ -115,7 +116,8 @@ var dc = {
     },
     lmca: new Cor_dc({ beta1: -1.31625, beta2: 0.37442, mse: 0.028467 }),
     lad: new Cor_dc({ beta1: -1.50927, beta2: 0.41164, mse: 0.033031 }),
-    rca: new Cor_dc({ beta1: -1.46115, beta2: 0.37870, mse: 0.040172 })
+    rca: new Cor_dc({ beta1: -1.46115, beta2: 0.37870, mse: 0.040172 }),
+    bsaFormula: 'DuBois'
 };
 
 var boston = {
@@ -129,5 +131,6 @@ var boston = {
     },
     lmca: new Cor_b({ a1: -0.02887, b1: 0.31747, exp: 0.36008, a2: 0.03040, b2: 0.01514 }),
     lad: new Cor_b({ a1: -0.02852, b1: 0.26108, exp: 0.37893, a2: 0.01465, b2: 0.01996 }),
-    rca: new Cor_b({ a1: -0.02756, b1: 0.26117, exp: 0.39992, a2: 0.02407, b2: 0.01597 })
+    rca: new Cor_b({ a1: -0.02756, b1: 0.26117, exp: 0.39992, a2: 0.02407, b2: 0.01597 }),
+    bsaFormula: 'Haycock'
 };
