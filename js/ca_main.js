@@ -1,4 +1,5 @@
-﻿REFS = [boston, montreal, dc];
+﻿var REF = montreal; //default
+REFS = [boston, montreal, dc];
 
 function updateBSA() {
     // if ht & wt exist, calculate the BSA
@@ -85,6 +86,7 @@ function resetForm() {
     removeClass('normal borderline mild moderate severe');
     $('.lmca, .lad, .circ, .rca, .mid_rca, .dist_rca').show();
     $('.title, .authors, .journal').text('');
-    $('pre').hide();
+    REF = montreal; //returns to default object
+    displayRef();
 
 } //end resetForm

@@ -119,7 +119,9 @@
                         </td>
                         <td>
                             <select id="cmbUseRef" onchange="updateRef()">
-                                <option value="">-- Choose Reference --</option>
+                                <option value="0">Boston (Circ. 2007)</option>
+                                <option value="1" selected="selected">Montreal (JASE, 2011)</option>
+                                <option value="2">Washington, D.C. (JASE, 2009)</option>
                             </select>
                         </td>
                     </tr>
@@ -237,7 +239,7 @@
             <div class="span-18 ">
                 <hr />
                 <h3>
-                    References:</h3>
+                    Reference:</h3>
                 <div id="References">
                     <a class="linkUrl"><span class="title"></span></a><span class="authors"></span><span
                         class="journal"></span>
@@ -263,18 +265,12 @@
     <script type="text/javascript">
         $(document).ready(function() {
             //fill the 'use_ref' dropdown list
-            $.each(REFS, function(key, value) {
-                $('#cmbUseRef').append($('<option></option>').
-            attr('value', key).
-            text(value.name));
-            });
-            $('pre').hide();
-            $('H4 a').click(
-        function() {
-            $(this).parent().next('pre').toggle();
-            return false
-        }
-            );
+            //            $.each(REFS, function(key, value) {
+            //                $('#cmbUseRef').append($('<option></option>').
+            //            attr('value', key).
+            //            text(value.name));
+            //            });
+            displayRef();
             $('#coronary-form').submit(function() { return false; });
 
         });
