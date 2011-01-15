@@ -33,14 +33,14 @@ function displayRef() {
 } //end displayRef fx
 
 function updateRef() {
-    var use_ref
+    var use_ref;
     //determine which reference was selected
     use_ref = $('#cmbUseRef').val();
     if (use_ref !== '') {
         REF = REFS[use_ref];
         displayRef();
         //add logic to update BSA formula
-        $('#cmbBSA').val(REF['bsaFormula']);
+        $('#cmbBSA').val(REF.bsaFormula);
         calculateZScores();
 
     } else {
@@ -71,7 +71,7 @@ function updateSite(site, score) {
     if (score) {
         //debug
         //alert('in function "updateSite"')
-        var z = REF[site]['zscore'](score);
+        var z = REF[site].zscore(score);
         //debug
         //alert(site + ': ' + z.toFixed(2))
         $('#' + site + 'z').text(z.toFixed(2)).

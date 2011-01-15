@@ -20,19 +20,19 @@ function Cor_b(o) {
 Cor_b.prototype.mean = function() {
     // converts cm to mm, i.e., manuscript deals with 'cm', I want to use 'mm'
     return 10 * (this.a1 + this.b1 * Math.pow(BSA, this.exp));
-}
+};
 Cor_b.prototype.sd = function() {
     return 10 * (this.a2 + this.b2 * BSA);
-}
+};
 Cor_b.prototype.zscore = function(score) {
     return (score - this.mean()) / this.sd();
-}
+};
 Cor_b.prototype.uln = function() {
     return this.mean() + LIMIT * this.sd();
-}
+};
 Cor_b.prototype.lln = function() {
     return this.mean() - LIMIT * this.sd();
-}
+};
 
 
 function Cor_dc(o) {
@@ -43,20 +43,20 @@ function Cor_dc(o) {
 }
 Cor_dc.prototype.logMean = function() {
     return this.beta1 + this.beta2 * Math.log(BSA);
-}
+};
 Cor_dc.prototype.zscore = function(score) {
     //have to convert mm to cm, i.e., the equatons expect 'cm', I want us to use 'mm'
     return (Math.log(score / 10) - this.logMean()) / Math.sqrt(this.mse);
-}
+};
 Cor_dc.prototype.mean = function() {
     return 10 * Math.exp(this.logMean());
-}
+};
 Cor_dc.prototype.uln = function() {
-    return Math.exp(this.logMean() + LIMIT * Math.sqrt(this.mse)) * 10
-}
+    return Math.exp(this.logMean() + LIMIT * Math.sqrt(this.mse)) * 10;
+};
 Cor_dc.prototype.lln = function() {
-    return Math.exp(this.logMean() - LIMIT * Math.sqrt(this.mse)) * 10
-}
+    return Math.exp(this.logMean() - LIMIT * Math.sqrt(this.mse)) * 10;
+};
 
 
 
