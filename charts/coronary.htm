@@ -16,11 +16,18 @@
 <body>
 <div class="container">
     <h1>
-        Coronary Artery Plot: <span id="ca"></span>
+        Coronary Artery Plot: <span id="ca"></span> vs. BSA
     </h1>
-    <h2 id="ref"></h2>
+    <h2>Data Set: "<span id="ref"></span>"</h2>
 
     <div id="placeholder" style="width: 600px; height: 300px">
+    </div>
+    <hr class="space" />
+    <hr class="span-15 last" />
+    <hr class="space" />
+    <div class="quiet">
+    <p>Chart axes: coronary artery (mm) vs. BSA (m<sup>2</sup>)</p>
+    <p>Chart generated on: <span id="date"></span></p>
     </div>
 </div>
 </body>
@@ -82,6 +89,7 @@
             legend: { position: 'nw' }
         };
         $.plot($("#placeholder"), [ulnData, llnData, myData], options);
+        $('#date').text(Date());
     });
     
 </script>

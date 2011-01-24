@@ -288,15 +288,11 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            //fill the 'use_ref' dropdown list
-            //            $.each(REFS, function(key, value) {
-            //                $('#cmbUseRef').append($('<option></option>').
-            //            attr('value', key).
-            //            text(value.name));
-            //            });
+            //'Montreal' is the default reference, so:
             displayRef();
             $('#coronary-form').submit(function() { return false; });
-
+            $('a img').hide(); //default setup should be with NO chart/img links
+            $('input.site').attr('title', 'mm');
         });
 
     </script>

@@ -75,12 +75,19 @@ function updateSite(site, score) {
             removeClass('normal borderline mild moderate severe').
             addClass(zscoreFlag(z)).attr('title', (poz(z) * 100).toFixed(2) + '%-ile');
         //add chart_url to link/img
+        $('a.' + site + ' img').show();
         var qstr = '?ref=' + REF.id.toLowerCase();
         qstr += '&site=' + site;
         qstr += '&bsa=' + BSA;
         qstr += '&score=' + score;
         qstr += '&z=' + z.toFixed(2);
         $('a.' + site).attr('href', 'charts/coronary.htm' + qstr);
+
+    }
+    else {
+        // there is no parse-able data in the input box
+        $('#' + site + 'z').text('').removeClass('normal borderline mild moderate severe');
+        $('a.' + site + ' img').hide(); //hides the chart link img if no data is avail to chart
 
     }
 } //end updateSite
@@ -90,6 +97,7 @@ function resetForm() {
     removeClass('normal borderline mild moderate severe');
     $('.lmca, .lad, .circ, .rca, .mid_rca, .dist_rca').show();
     $('.title, .authors, .journal').text('');
+    $('a img').hide();
     REF = montreal; //returns to default object
     displayRef();
 
