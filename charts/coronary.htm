@@ -7,17 +7,22 @@
 
     <script src="../js/jquery.flot.js" type="text/javascript"></script>
 
+    <script src="../js/excanvas.min.js" type="text/javascript"></script>
     <script src="../js/ca_defs.js" type="text/javascript"></script>
 
+    <link href="../style/ie.css" rel="stylesheet" type="text/css" />
+    <link href="../style/screen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+<div class="container">
     <h1>
         Coronary Artery Plot: <span id="ca"></span>
     </h1>
-    <h2 id="ref">
-    </h2>
+    <h2 id="ref"></h2>
+
     <div id="placeholder" style="width: 600px; height: 300px">
     </div>
+</div>
 </body>
 
 <script type="text/javascript">
@@ -56,6 +61,7 @@
         var ref = (urlParams['ref']);
         var plot_bsa = (urlParams['bsa']);
         var plot_score = (urlParams['score']);
+        var z = (urlParams['z']);
         $('#ca').text(site.toUpperCase());
         $('#ref').text(ref.toUpperCase());
         getData(ref, site);
@@ -66,7 +72,7 @@
             lines: { show: false },
             points: { show: true },
             color: "#000000",
-            label: plot_bsa + ", " + plot_score
+            label: 'Z-score = ' + z
         };
 
         var options = {

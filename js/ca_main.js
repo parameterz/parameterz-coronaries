@@ -26,10 +26,6 @@ function displayRef() {
     $('.linkUrl').attr('href', REF.citation.linkUrl);
     $('.authors').text(REF.citation.authors);
     $('.journal').text(REF.citation.journal);
-    //and display the code samples
-    $('#code_sample').show();
-    $('pre').hide();
-    $('pre.' + REF.id).show();
 
 } //end displayRef fx
 
@@ -78,6 +74,14 @@ function updateSite(site, score) {
         $('#' + site + 'z').text(z.toFixed(2)).
             removeClass('normal borderline mild moderate severe').
             addClass(zscoreFlag(z)).attr('title', (poz(z) * 100).toFixed(2) + '%-ile');
+        //add chart_url to link/img
+        var qstr = '?ref=' + REF.id.toLowerCase();
+        qstr += '&site=' + site;
+        qstr += '&bsa=' + BSA;
+        qstr += '&score=' + score;
+        qstr += '&z=' + z.toFixed(2);
+        $('a.' + site).attr('href', 'charts/coronary.htm' + qstr);
+
     }
 } //end updateSite
 
