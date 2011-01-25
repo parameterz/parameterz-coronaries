@@ -20,7 +20,7 @@
     </h1>
     <h2>Data Set: "<span id="ref"></span>"</h2>
 
-    <div id="placeholder" style="width: 600px; height: 300px">
+    <div id="placeholder" style="width: 600px; height: 400px">
     </div>
     <hr class="space" />
     <hr class="span-15 last" />
@@ -77,7 +77,7 @@
         $('#date').text(Date());
         getData(ref, site);
         var ulnData = { data: uln, label: "+2 SD", lines: { show: true, fill: true }, color: 1 };
-        var llnData = { data: lln, label: "-2 SD", lines: { show: true, fill: true, fillColor: "rgba(255,255,255,0.9)" }, color: 1 };
+        var llnData = { data: lln, label: "-2 SD", lines: { show: true, fill: true, fillColor: "rgba(255,255,255,0.99)" }, color: 1 };
         var myData = {
             data: [[+plot_bsa, +plot_score]], //data is 'an array of arrays'-- I always forget the outer array...
             lines: { show: false },
@@ -90,7 +90,7 @@
             yaxis: { min: 0 },
             xaxis: { tickDecimals: 1 },
             grid: { show: true, aboveData: true },
-            legend: { position: 'nw' }
+            legend: { position: 'se' }
         };
         $.plot($("#placeholder"), [ulnData, llnData, myData], options);
     });
