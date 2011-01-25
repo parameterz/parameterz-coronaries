@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Coronary Artery Plots | ParameterZ.com</title>
+    <title>Coronary Artery Plot | ParameterZ.com</title>
 
     <script src="../js/jquery-1.4.min.js" type="text/javascript"></script>
 
@@ -16,7 +16,7 @@
 <body>
 <div class="container">
     <h1>
-        Coronary Artery Plot: <span id="ca"></span> vs. BSA
+        Coronary Artery Plot: <span id="ca"></span>&nbsp;vs. BSA
     </h1>
     <h2>Data Set: "<span id="ref"></span>"</h2>
 
@@ -26,8 +26,9 @@
     <hr class="span-15 last" />
     <hr class="space" />
     <div class="quiet">
-    <p>Chart axes: coronary artery (mm) vs. BSA (m<sup>2</sup>)</p>
-    <p>Chart generated on: <span id="date"></span></p>
+    <p>Axes: coronary artery (mm) vs. BSA (m<sup>2</sup>)</p>
+    <p><span id="ca2"></span>:&nbsp;<span id="score"></span>; BSA: <span id="bsa"></span></p>
+    <p>Generated: <span id="date"></span></p>
     </div>
 </div>
 </body>
@@ -69,8 +70,11 @@
         var plot_bsa = (urlParams['bsa']);
         var plot_score = (urlParams['score']);
         var z = (urlParams['z']);
-        $('#ca').text(site.toUpperCase());
+        $('#ca, #ca2').text(site.toUpperCase());
         $('#ref').text(ref.toUpperCase());
+        $('#score').text(plot_score);
+        $('#bsa').text(plot_bsa);
+        $('#date').text(Date());
         getData(ref, site);
         var ulnData = { data: uln, label: "+2 SD", lines: { show: true, fill: true }, color: 1 };
         var llnData = { data: lln, label: "-2 SD", lines: { show: true, fill: true, fillColor: "rgba(255,255,255,0.9)" }, color: 1 };
@@ -89,7 +93,6 @@
             legend: { position: 'nw' }
         };
         $.plot($("#placeholder"), [ulnData, llnData, myData], options);
-        $('#date').text(Date());
     });
     
 </script>
