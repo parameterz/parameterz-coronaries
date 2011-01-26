@@ -75,6 +75,7 @@
         $('#score').text(plot_score);
         $('#bsa').text(plot_bsa);
         $('#date').text(Date());
+        $(document).attr('title', site.toUpperCase() + ' PLOT' + ' | ' + ref.toUpperCase());
         getData(ref, site);
         var ulnData = { data: uln, label: "+2 SD", lines: { show: true, fill: true }, color: 1 };
         var llnData = { data: lln, label: "-2 SD", lines: { show: true, fill: true, fillColor: "rgba(255,255,255,0.99)" }, color: 1 };
