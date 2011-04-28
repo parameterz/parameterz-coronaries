@@ -1,4 +1,4 @@
-﻿//globals
+ //globals
 var BSA, LIMIT, REFS, REF;
 
 LIMIT = 2.0; // z-score to use for upper/lower limits
@@ -134,3 +134,4 @@ var boston = {
     rca: new Cor_b({ a1: -0.02756, b1: 0.26117, exp: 0.39992, a2: 0.02407, b2: 0.01597 }),
     bsaFormula: 'Haycock'
 };
+//copyright Dan Dyar, 2010
