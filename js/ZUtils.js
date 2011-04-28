@@ -1,4 +1,4 @@
-﻿function CalcBSA(ht, wt, BSAMethod) {
+ function CalcBSA(ht, wt, BSAMethod) {
     /// <summary>returns the body surface area in meters^2</summary>
     /// <param name="ht">height, units = cm</param>
     /// <param name="wt">weight, units = kg</param>
@@ -90,3 +90,4 @@ function zscoreFlag(zScore) {
     }
     return "normal";
 }//end zscore flag function
+//copyright Dan Dyar, 2010
