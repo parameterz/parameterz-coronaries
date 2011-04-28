@@ -1,4 +1,4 @@
-﻿var REF = montreal; //default
+ var REF = montreal; //default
 REFS = [boston, montreal, dc];
 
 function updateBSA() {
@@ -102,3 +102,4 @@ function resetForm() {
     displayRef();
 
 } //end resetForm
+// copyright Dan Dyar, 2010
